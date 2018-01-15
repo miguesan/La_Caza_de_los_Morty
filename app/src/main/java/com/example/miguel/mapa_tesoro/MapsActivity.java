@@ -1,0 +1,294 @@
+package com.example.miguel.mapa_tesoro;
+
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Looper;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
+import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.widget.TextView;
+import android.util.Log;
+
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
+
+    private GoogleMap mMap;
+    private Marker marker;
+    private Marker marcador;
+    private LatLng latLng;
+    private LatLng latLng1;
+    private LatLng latLng2;
+    private LatLng Castelao;
+    private double lat=0.0, lon=0.0;
+    private static final int LOCATION_REQUEST_CODE = 1;
+    private static final String TAG = "gpslog";
+    private LocationManager mLocMgr;
+    private TextView textLatitud, textLongitud;
+    //Minimo tiempo para updates en Milisegundos
+    private static final long MIN_CAMBIO_DISTANCIA_PARA_UPDATES = (long) 20; // 20 metro
+    //Minimo tiempo para updates en Milisegundos
+    private static final long MIN_TIEMPO_ENTRE_UPDATES = 10000; // 10 sg
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_maps);
+        textLatitud = (TextView) findViewById(R.id.latitud);
+        textLongitud = (TextView) findViewById(R.id.longitud);
+
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+        mLocMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            //Requiere permisos para Android 6.0
+            Log.e(TAG, "No se tienen permisos necesarios!, se requieren.");
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 225);
+            return;
+        } else {
+            Log.i(TAG, "Permisos necesarios OK!.");
+            // registra el listener para obtener actualizaciones
+            mLocMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIEMPO_ENTRE_UPDATES, MIN_CAMBIO_DISTANCIA_PARA_UPDATES, locListener, Looper.getMainLooper());
+        }
+
+        textLatitud.setText("Latitud");
+        textLongitud.setText("Longitud");
+
+    }
+
+// --------------------------------------------------------------------------------------------------------------
+
+
+    /**
+     * Manipulates the map once available.
+     * This callback is triggered when the map is ready to be used.
+     * This is where we can add markers or lines, add listeners or move the camera. In this case,
+     * we just add a marker near Sydney, Australia.
+     * If Google Play services is not installed on the device, the user will be prompted to install
+     * it inside the SupportMapFragment. This method will only be triggered once the user has
+     * installed Google Play services and returned to the app.
+     */
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        miUbicacion();
+
+        // Puntero por defecto con permisos de administrador Castelao
+        Castelao = new LatLng(42.23661386151706, -8.714480996131897);
+        mMap.addMarker(new MarkerOptions()
+                .position(Castelao)
+                .title("El Comienzo (Daniel Castelao)"));
+               // .icon(BitmapDescriptorFactory.fromResource(R.drawable.horda)));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(Castelao));
+        mMap.setOnInfoWindowClickListener(this);
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mMap.setMyLocationEnabled(true);
+        } else {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+            } else {
+                // Solicitar permisos de usuario
+                ActivityCompat.requestPermissions(
+                        this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        LOCATION_REQUEST_CODE);
+            }
+        }
+
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+
+        // Marcadores 3 pistas
+        mMap.addMarker(new MarkerOptions().position(new LatLng(42.23661386151706, -8.714480996131897)));
+
+        //Punto 1 PANDARIA
+        latLng = new LatLng(42.237439526686515, -8.714226186275482);//La Fayette
+        int radius = 10;
+
+        CircleOptions circleOptions = new CircleOptions()
+                .center(latLng)
+                .radius(radius)
+                .strokeColor(Color.parseColor("#0D47A1"))
+                .strokeWidth(4)
+                .fillColor(Color.argb(32, 33, 150, 243));
+        Circle circle = mMap.addCircle(circleOptions);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
+
+        mMap.addMarker(new MarkerOptions()
+                .position(latLng)
+                .title("Mision 1. Encuentra a Sha de la Ira")
+                .snippet("Fundador: pargibay 6150")
+              //  .icon(BitmapDescriptorFactory.fromResource(R.drawable.pandariam))
+        );
+        mMap.setOnInfoWindowClickListener(this);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+
+        //Punto 2 CATACLYSM
+        latLng1 = new LatLng(42.237706320945556, -8.715687990188599);//GaliPizza
+        int radius1 = 10;
+
+        CircleOptions circleOptions1 = new CircleOptions()
+                .center(latLng1)
+                .radius(radius1)
+                .strokeColor(Color.parseColor("#FF0000"))
+                .strokeWidth(4)
+                .fillColor(Color.argb(32, 33, 150, 243));
+        Circle circle1 = mMap.addCircle(circleOptions1);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng1, 17));
+
+        mMap.addMarker(new MarkerOptions()
+                .position(latLng1)
+                .title("Mision 2. Habla con Gamon para llegar a Legion")
+                .snippet("Fundador: pargibay 6150")
+               // .icon(BitmapDescriptorFactory.fromResource(R.drawable.cataclysm))
+        );
+        mMap.setOnInfoWindowClickListener(this);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng1));
+
+        //Punto 3 LEGION
+        latLng2 = new LatLng(42.238956026405795, -8.71614396572113);//Parada Bus Arenal
+        int radius2 = 10;
+
+        CircleOptions circleOptions2 = new CircleOptions()
+                .center(latLng2)
+                .radius(radius2)
+                .strokeColor(Color.parseColor("#3ADF00"))
+                .strokeWidth(4)
+                .fillColor(Color.argb(32, 33, 150, 243));
+        Circle circle2 = mMap.addCircle(circleOptions2);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng2, 17));
+
+        mMap.addMarker(new MarkerOptions()
+                .position(latLng2)
+                .title("Mision 3. Elimina a Titan de Argus")
+                .snippet("Fundador: pargibay 6150")
+                //.icon(BitmapDescriptorFactory.fromResource(R.drawable.legion))
+        );
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng2));
+        mMap.setOnInfoWindowClickListener(this);
+
+    }
+// --------------------------------------------------------------------------------------------------------------
+
+    //Ventana de información
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        /*if (marker.equals(latLng)) {
+            WowDialogFragment.newInstance(marker.getTitle(),
+                    getString(R.string.pandaria_full_snippet))
+                    .show(getSupportFragmentManager(), null);
+        }
+        else if (marker.equals(latLng1)){
+            WowDialogFragment.newInstance(marker.getTitle(),
+                    getString(R.string.cataclysm_full_snippet))
+                    .show(getSupportFragmentManager(), null);
+        }
+        else if (marker.equals(latLng2)){
+            WowDialogFragment.newInstance(marker.getTitle(),
+                    getString(R.string.legion_full_snippet))
+                    .show(getSupportFragmentManager(), null);
+        }
+        else if (marker.equals(castelao)){
+            WowDialogFragment.newInstance(marker.getTitle(),
+                    getString(R.string.orgricastelao_full_snippet))
+                    .show(getSupportFragmentManager(), null);
+        }
+        else{
+            System.out.println("Error");
+        }*/
+    }
+
+// --------------------------------------------------------------------------------------------------------------
+
+    //Posicion Actual del Usuario (conectarse vía GPS)
+    private void localizacionActual(double lat, double lon){
+        LatLng coordenadas= new LatLng(lat,lon);
+        CameraUpdate miUbi= CameraUpdateFactory.newLatLngZoom(coordenadas, 16);
+        if(marcador!=null)marcador.remove();
+        marcador=mMap.addMarker(new MarkerOptions()
+                .position(coordenadas)
+                .title("Tu posicion actual")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.rick2)));
+        mMap.animateCamera(miUbi);
+    }
+
+    private void actualizarUbicacion(Location localitation){
+        if(localitation!=null){
+            lat=localitation.getLatitude();
+            lon=localitation.getLongitude();
+            localizacionActual(lat,lon);
+        }
+    }
+
+// --------------------------------------------------------------------------------------------------------------
+
+    LocationListener locListener = new LocationListener(){
+
+
+        @Override
+        public void onLocationChanged(Location location) {
+            actualizarUbicacion(location);
+            Log.i(TAG, "Lat " + location.getLatitude() + " Long " + location.getLongitude());
+            textLatitud.setText("Latitud: " +   location.getLatitude());
+            textLongitud.setText(("Longitud: " + location.getLongitude()));
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+            Log.i(TAG, "onProviderDisabled()");
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+            Log.i(TAG, "onProviderDisabled()");
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+            Log.i(TAG, "onProviderDisabled()");
+
+        }
+    };
+
+    private void miUbicacion(){
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED){
+            return;
+        }
+
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        actualizarUbicacion(location);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 15000, 0, locListener);
+
+    }
+
+
+
+
+}
+
