@@ -106,10 +106,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         miUbicacion();
 
         // Puntero por defecto con permisos de administrador Castelao
-        Castelao = new LatLng(42.23661386151706, -8.714480996131897);
+        Castelao = new LatLng(42.236525, -8.714207);
         mMap.addMarker(new MarkerOptions()
                 .position(Castelao)
-                .title("El Comienzo (Daniel Castelao)")
+                .title("COCHE")
+                .snippet("Aparcado en el tejado del Daniel Castelao")
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.coche)));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(Castelao));
         mMap.setOnInfoWindowClickListener(this);
@@ -131,8 +132,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.getUiSettings().setZoomControlsEnabled(true);
 
-        // Marcadores 3 pistas
-        mMap.addMarker(new MarkerOptions().position(new LatLng(42.23661386151706, -8.714480996131897)));
 
         //Punto 1
         latLng = new LatLng(42.237439526686515, -8.714226186275482);//La Fayette
