@@ -134,7 +134,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Marcadores 3 pistas
         mMap.addMarker(new MarkerOptions().position(new LatLng(42.23661386151706, -8.714480996131897)));
 
-        //Punto 1 PANDARIA
+        //Punto 1
         latLng = new LatLng(42.237439526686515, -8.714226186275482);//La Fayette
         int radius = 10;
 
@@ -149,14 +149,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.addMarker(new MarkerOptions()
                 .position(latLng)
-                .title("Mision 1. Encuentra a Sha de la Ira")
-                .snippet("Fundador: pargibay 6150")
-              //  .icon(BitmapDescriptorFactory.fromResource(R.drawable.pandariam))
+                .title("Morty Cuerpo Enano")
+                .snippet("Creador: Rick Sánchez - Universo SD-45a")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mortymapa1))
         );
         mMap.setOnInfoWindowClickListener(this);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
-        //Punto 2 CATACLYSM
+        //Punto 2
         latLng1 = new LatLng(42.237706320945556, -8.715687990188599);//GaliPizza
         int radius1 = 10;
 
@@ -171,14 +171,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.addMarker(new MarkerOptions()
                 .position(latLng1)
-                .title("Mision 2. Habla con Gamon para llegar a Legion")
-                .snippet("Fundador: pargibay 6150")
-               // .icon(BitmapDescriptorFactory.fromResource(R.drawable.cataclysm))
+                .title("Morty Doble Cara")
+                .snippet("Creador: Rick Sánchez - Universo GF-L8p")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mortymapa2))
         );
         mMap.setOnInfoWindowClickListener(this);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng1));
 
-        //Punto 3 LEGION
+        //Punto 3
         latLng2 = new LatLng(42.238956026405795, -8.71614396572113);//Parada Bus Arenal
         int radius2 = 10;
 
@@ -193,9 +193,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.addMarker(new MarkerOptions()
                 .position(latLng2)
-                .title("Mision 3. Elimina a Titan de Argus")
-                .snippet("Fundador: pargibay 6150")
-                //.icon(BitmapDescriptorFactory.fromResource(R.drawable.legion))
+                .title("Morty Insecto")
+                .snippet("Creador: Rick Sánchez - Universo PJ-2Y7")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mortymapa3))
         );
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng2));
         mMap.setOnInfoWindowClickListener(this);

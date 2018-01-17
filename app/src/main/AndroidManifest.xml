@@ -40,7 +40,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="¿Comenzamos la Caza?">
+            android:label="La Caza de los Morty´s">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
