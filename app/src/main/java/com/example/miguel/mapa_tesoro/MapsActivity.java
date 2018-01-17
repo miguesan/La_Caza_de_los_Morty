@@ -1,7 +1,10 @@
 package com.example.miguel.mapa_tesoro;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -45,6 +48,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final long MIN_TIEMPO_ENTRE_UPDATES = 10000; // 10 sg
 
     private TextView latitud, longitud;
+
+
+
+    String cadena = "¿Seguro que quieres irte ya sin terminar? Pss... Como me lo esperaba";
+
+    public static final int INTERVALO = 2000; //2 segundos para salir
+    public long tiempoPrimerClick;
+
 
 
     @Override
@@ -286,8 +297,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+// --------------------------------------------------------------------------------------------------------------
 
+    public void onBackPressed(){
 
+        //se prepara la alerta creando nueva instancia
+        AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
+        //seleccionamos la cadena a mostrar
+        alertbox.setMessage(cadena);
 
+        if (tiempoPrimerClick + INTERVALO > System.currentTimeMillis()){
+            super.onBackPressed();
+            return;
+        }else{
+            alertbox.setMessage(cadena);
+            //elegimos un positivo SI y creamos un Listener
+            alertbox.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent salida=new Intent( Intent.ACTION_MAIN); //Llamando a la activity principal
+                    finishAffinity();
+                }
+            });
+
+            //elegimos un positivo NO y creamos un Listener
+            alertbox.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            });
+        }
+        //mostramos el alertbox
+        alertbox.show();
+    }
 }
 
