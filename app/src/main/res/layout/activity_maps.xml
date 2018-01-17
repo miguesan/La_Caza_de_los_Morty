@@ -2,33 +2,39 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/map"
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.miguel.mapa_tesoro.MapsActivity">
 
 
-
-<GridLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.example.miguel.mapa_tesoro.MapsActivity2" />
 
     <TextView
         android:id="@+id/latitud"
-        android:layout_width="160dp"
+        android:layout_width="match_parent"
         android:layout_height="20dp"
+        android:layout_above="@+id/longitud"
+        android:layout_alignParentStart="true"
         android:layout_column="0"
-        android:layout_row="1"
-        android:text="Latitud: NO SE MUESTRA"/>
+        android:layout_row="0"
+        android:text="Latitud: NO SE MUESTRA" />
+
     <TextView
         android:id="@+id/longitud"
-        android:layout_width="160dp"
+        android:layout_width="match_parent"
         android:layout_height="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
         android:layout_column="0"
-        android:layout_row="2"
-        android:text="Longitud: NO SE MUESTRA"/>
-
-</GridLayout>
-
+        android:layout_marginBottom="40dp"
+        android:layout_row="0"
+        android:text="Longitud: NO SE MUESTRA" />
 </RelativeLayout>

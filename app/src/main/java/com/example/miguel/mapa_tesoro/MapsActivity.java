@@ -30,7 +30,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap mMap;
-    private Marker marker;
     private Marker marcador;
     private LatLng latLng;
     private LatLng latLng1;
@@ -40,24 +39,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final int LOCATION_REQUEST_CODE = 1;
     private static final String TAG = "gpslog";
     private LocationManager mLocMgr;
-    private TextView textLatitud, textLongitud;
     //Minimo tiempo para updates en Milisegundos
     private static final long MIN_CAMBIO_DISTANCIA_PARA_UPDATES = (long) 20; // 20 metro
     //Minimo tiempo para updates en Milisegundos
     private static final long MIN_TIEMPO_ENTRE_UPDATES = 10000; // 10 sg
+
+    private TextView latitud, longitud;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        textLatitud = (TextView) findViewById(R.id.latitud);
-        textLongitud = (TextView) findViewById(R.id.longitud);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        mapFragment.getMapAsync(MapsActivity.this);
+
+        latitud=findViewById(R.id.latitud);
+        longitud=findViewById(R.id.longitud);
 
         mLocMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -71,8 +72,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mLocMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIEMPO_ENTRE_UPDATES, MIN_CAMBIO_DISTANCIA_PARA_UPDATES, locListener, Looper.getMainLooper());
         }
 
-        textLatitud.setText("Latitud");
-        textLongitud.setText("Longitud");
+        latitud.setText("Latitud");
+        longitud.setText("Longitud");
 
     }
 
@@ -229,7 +230,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         marcador=mMap.addMarker(new MarkerOptions()
                 .position(coordenadas)
                 .title("Tu posicion actual")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.rick2)));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.rick2))
+                );
         mMap.animateCamera(miUbi);
     }
 
@@ -245,32 +247,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     LocationListener locListener = new LocationListener(){
 
-
         @Override
         public void onLocationChanged(Location location) {
             actualizarUbicacion(location);
             Log.i(TAG, "Lat " + location.getLatitude() + " Long " + location.getLongitude());
-            textLatitud.setText("Latitud: " +   location.getLatitude());
-            textLongitud.setText(("Longitud: " + location.getLongitude()));
+            latitud.setText("Latitud "+lat);
+            longitud.setText("Longitud "+lon);
         }
 
         @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
+        public void onStatusChanged(String s, int i, Bundle bundle) {
             Log.i(TAG, "onProviderDisabled()");
-
         }
 
         @Override
-        public void onProviderEnabled(String provider) {
+        public void onProviderEnabled(String s) {
             Log.i(TAG, "onProviderDisabled()");
-
         }
 
         @Override
-        public void onProviderDisabled(String provider) {
+        public void onProviderDisabled(String s) {
             Log.i(TAG, "onProviderDisabled()");
-
         }
+
     };
 
     private void miUbicacion(){
