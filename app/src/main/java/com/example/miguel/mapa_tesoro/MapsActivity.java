@@ -109,8 +109,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Castelao = new LatLng(42.23661386151706, -8.714480996131897);
         mMap.addMarker(new MarkerOptions()
                 .position(Castelao)
-                .title("El Comienzo (Daniel Castelao)"));
-               // .icon(BitmapDescriptorFactory.fromResource(R.drawable.horda)));
+                .title("El Comienzo (Daniel Castelao)")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.coche)));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(Castelao));
         mMap.setOnInfoWindowClickListener(this);
 
