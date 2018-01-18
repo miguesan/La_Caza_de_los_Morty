@@ -47,6 +47,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".WinActivity"
+            android:label="¡¡GOOD JOB!!"/>
+
+        <activity android:name=".LoserActivity"
+            android:label="Perdiste, ¡¡LOSER!!"/>
+
+        <activity android:name=".QRActivity"
+            android:label="Escanea QR"/>
     </application>
 
 </manifest>
