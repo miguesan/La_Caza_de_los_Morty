@@ -336,6 +336,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     Intent salida=new Intent( Intent.ACTION_MAIN); //Llamando a la activity principal
+                    musicafondo.stop(); //para la musica de fondo
                     finishAffinity();
                 }
             });

@@ -33,14 +33,16 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="La Caza de los Morty´s">
+            android:label="La Caza de los Morty´s"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="La Caza de los Morty´s">
+            android:label="La Caza de los Morty´s"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -49,13 +51,16 @@
         </activity>
 
         <activity android:name=".WinActivity"
-            android:label="¡¡GOOD JOB!!"/>
+            android:label="¡¡GOOD JOB!!"
+            android:screenOrientation="portrait"/>
 
         <activity android:name=".LoserActivity"
-            android:label="Perdiste, ¡¡LOSER!!"/>
+            android:label="Perdiste, ¡¡LOSER!!"
+            android:screenOrientation="portrait"/>
 
         <activity android:name=".QRActivity"
-            android:label="Escanea QR"/>
+            android:label="Escanea QR"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
