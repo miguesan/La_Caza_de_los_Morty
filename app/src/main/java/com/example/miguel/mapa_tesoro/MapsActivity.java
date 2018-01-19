@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.MediaPlayer;
 import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -29,6 +30,9 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
@@ -55,6 +59,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public static final int INTERVALO = 2000; //2 segundos para salir
     public long tiempoPrimerClick;
+
+
+    //para la musica
+    private MediaPlayer musicafondo;
+    int MAX_VOLUME = 100;
+    int soundVolume = 90;
+    float volume = (float) (1 - (Math.log(MAX_VOLUME - soundVolume) / Math.log(MAX_VOLUME)));
 
 
 
@@ -86,6 +97,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         latitud.setText("Latitud");
         longitud.setText("Longitud");
 
+        //musica de fondo para la app
+        musicafondo = MediaPlayer.create(this, R.raw.musica);
+        musicafondo.setLooping(true);
+        musicafondo.setVolume(volume, volume);
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                musicafondo.start();
+            }
+        }, 1000);
     }
 
 // --------------------------------------------------------------------------------------------------------------
