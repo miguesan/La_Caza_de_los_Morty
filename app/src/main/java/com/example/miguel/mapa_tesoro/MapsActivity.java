@@ -16,6 +16,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -68,8 +70,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(MapsActivity.this);
 
-        latitud=findViewById(R.id.latitud);
-        longitud=findViewById(R.id.longitud);
+        latitud = findViewById(R.id.latitud);
+        longitud = findViewById(R.id.longitud);
 
         mLocMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -85,6 +87,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         latitud.setText("Latitud");
         longitud.setText("Longitud");
+
+
+        Button btn = (Button) findViewById(R.id.qr);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), LoserActivity.class);
+                startActivityForResult(intent, 0);
+            }
+        });
     }
 
 // --------------------------------------------------------------------------------------------------------------
