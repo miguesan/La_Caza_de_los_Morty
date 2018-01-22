@@ -58,6 +58,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static final int INTERVALO = 2000; //2 segundos para salir
     public long tiempoPrimerClick;
 
+    //Declaraciones de distancias entre puntos tanto lideres como puntos de asalto
+    private Location locationGPS;
+    double distancia1, distancia2, distancia3;
+    float metroscerca = 20;
+    float metroslejos = 10;
+
+
+    //boton escaner
+    Button btn;
 
 
     @Override
@@ -88,15 +97,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         latitud.setText("Latitud");
         longitud.setText("Longitud");
 
+        btn = (Button) findViewById(R.id.bEscaner);
+        btn.setClickable(false);
 
-        Button btn = (Button) findViewById(R.id.qr);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), LoserActivity.class);
-                startActivityForResult(intent, 0);
-            }
-        });
+
+
     }
 
 // --------------------------------------------------------------------------------------------------------------
@@ -265,12 +270,91 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 // --------------------------------------------------------------------------------------------------------------
+    //Distancias entre tu posicion y la posicion de los reinos a conquistar
+    private void distanciaMorty1(Location localitation) {
+        double latim1 = 42.237439;
+        double longim1 = -8.714226;
+        Location locationmorty1 = new Location("Morty Cuerpo Enano");
+        locationmorty1.setLatitude(latim1);
+        locationmorty1.setLongitude(longim1);
+        distancia1 = localitation.distanceTo(locationmorty1);
+
+        if(localitation==locationmorty1){
+
+            btn.setClickable(true);
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent (v.getContext(), QRActivity.class);
+                    startActivityForResult(intent, 0);
+                    }
+                });
+        }else{
+            btn.setClickable(false);
+
+        }
+    }
+
+
+    private void distanciaMorty2(Location localitation) {
+        double latim2 = 42.237706;
+        double longim2 = -8.715687;
+        Location locationmorty2 = new Location("Morty Doble Cara");
+        locationmorty2.setLatitude(latim2);
+        locationmorty2.setLongitude(longim2);
+        distancia2 = localitation.distanceTo(locationmorty2);
+
+        if(localitation==locationmorty2){
+
+            btn.setClickable(true);
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent (v.getContext(), QRActivity.class);
+                    startActivityForResult(intent, 0);
+                }
+            });
+        }else{
+            btn.setClickable(false);
+
+        }
+    }
+
+    private void distanciaMorty3(Location localitation){
+        double latim3 = 42.238956;
+        double longim3 = -8.716143;
+        Location locationmorty3 = new Location("Morty Insecto");
+        locationmorty3.setLatitude(latim3);
+        locationmorty3.setLongitude(longim3);
+        distancia3 = localitation.distanceTo(locationmorty3);
+
+        if(localitation==locationmorty3){
+
+            btn.setClickable(true);
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent (v.getContext(), QRActivity.class);
+                    startActivityForResult(intent, 0);
+                }
+            });
+        }else{
+            btn.setClickable(false);
+
+        }
+    }
+
+// --------------------------------------------------------------------------------------------------------------
 
     LocationListener locListener = new LocationListener(){
 
         @Override
         public void onLocationChanged(Location location) {
             actualizarUbicacion(location);
+            distanciaMorty1(location);
+            distanciaMorty2(location);
+            distanciaMorty3(location);
+            Log.i(TAG, "Lat " + location.getLatitude() + " Long " + location.getLongitude());
             Log.i(TAG, "Lat " + location.getLatitude() + " Long " + location.getLongitude());
             latitud.setText("Latitud "+lat);
             longitud.setText("Longitud "+lon);
