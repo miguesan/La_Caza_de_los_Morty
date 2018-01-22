@@ -98,7 +98,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         longitud.setText("Longitud");
 
         btn = (Button) findViewById(R.id.bEscaner);
-        btn.setClickable(false);
+        btn.setEnabled(false);
+
 
 
 
@@ -279,9 +280,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationmorty1.setLongitude(longim1);
         distancia1 = localitation.distanceTo(locationmorty1);
 
-        /*if(localitation==locationmorty1){
+        if(localitation==locationmorty1){
 
-            btn.setClickable(true);
+            btn.setEnabled(true);
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -290,21 +291,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                 });
         }else{
-            btn.setClickable(false);
-
-        }*/
-        if(localitation==locationmorty1){
-
-            btn.setClickable(true);
-            btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent (v.getContext(), WinActivity.class);
-                    startActivityForResult(intent, 0);
-                }
-            });
-        }else{
-            btn.setClickable(false);
+            btn.setEnabled(false);
 
         }
     }
@@ -318,9 +305,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationmorty2.setLongitude(longim2);
         distancia2 = localitation.distanceTo(locationmorty2);
 
-        /*if(localitation==locationmorty2){
+        if(localitation==locationmorty2){
 
-            btn.setClickable(true);
+            btn.setEnabled(true);
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -329,21 +316,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             });
         }else{
-            btn.setClickable(false);
-
-        }*/
-        if(localitation==locationmorty2){
-
-            btn.setClickable(true);
-            btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent (v.getContext(), WinActivity.class);
-                    startActivityForResult(intent, 0);
-                }
-            });
-        }else{
-            btn.setClickable(false);
+            btn.setEnabled(false);
 
         }
     }
@@ -356,9 +329,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationmorty3.setLongitude(longim3);
         distancia3 = localitation.distanceTo(locationmorty3);
 
-        /*if(localitation==locationmorty3){
+        if(localitation==locationmorty3){
 
-            btn.setClickable(true);
+            btn.setEnabled(true);
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -366,22 +339,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     startActivityForResult(intent, 0);
                 }
             });
-        }else{
-            btn.setClickable(false);
-
-        }*/
-        if(localitation==locationmorty3){
-
-            btn.setClickable(true);
-            btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent (v.getContext(), WinActivity.class);
-                    startActivityForResult(intent, 0);
-                }
-            });
-        }else{
-            btn.setClickable(false);
+        }else {
+            btn.setEnabled(false);
 
         }
     }

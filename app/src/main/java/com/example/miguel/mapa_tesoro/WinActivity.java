@@ -44,7 +44,7 @@ public class WinActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Intent salida=new Intent( Intent.ACTION_MAIN); //Llamando a la activity principal
-                finish();
+                finishAffinity();
             }
         });
 
