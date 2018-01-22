@@ -11,27 +11,36 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="385dp"
-            android:layout_height="250dp"
-            android:layout_alignStart="@+id/bComenzar"
-            android:layout_centerVertical="true"
-            android:layout_column="0"
-            android:layout_row="2"
-            app:srcCompat="@drawable/rick" />
+
+        <pl.droidsonroids.gif.GifImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/rickgif2"
+            android:background="@android:color/background_dark"
+            />
+
 
         <Button
             android:id="@+id/bComenzar"
             android:layout_width="180dp"
             android:layout_height="40dp"
+            android:layout_above="@+id/bSalir"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/imageView"
             android:layout_column="0"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="21dp"
+            android:layout_marginStart="16dp"
             android:layout_row="1"
             android:text="Comenzar la Caza" />
+
+        <Button
+            android:id="@+id/bIntrucciones"
+            android:layout_width="180dp"
+            android:layout_height="40dp"
+            android:layout_alignStart="@+id/bComenzar"
+            android:layout_below="@+id/bComenzar"
+            android:layout_column="0"
+            android:layout_row="1"
+            android:text="Instrucciones"
+            android:onClick="instrucciones"/>
 
         <Button
             android:id="@+id/bSalir"
@@ -46,12 +55,11 @@
             android:text="Salir" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/titulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="43dp"
             app:srcCompat="@drawable/titulo" />
     </RelativeLayout>
 
