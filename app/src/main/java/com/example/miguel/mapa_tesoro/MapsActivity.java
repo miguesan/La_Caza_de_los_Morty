@@ -1,6 +1,7 @@
 package com.example.miguel.mapa_tesoro;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,6 +12,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -32,6 +34,8 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.concurrent.TimeUnit;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
@@ -77,6 +81,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     int contadorGanar = 0;
     Context contexto;
 
+    //Declaraciones cuenta atras
+    private TextView cronometro;
+    private static final String FORMAT = "%02d:%02d:%02d";
+    Context cronoContex;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,12 +120,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         txtqr = (TextView) findViewById(R.id.txtqr);
         contexto = this.getApplicationContext();
+        cronoContex = this.getBaseContext();
 
 
 
+        //cuenta atras para finalizar el juego
 
+        cronometro = (TextView) findViewById(R.id.cronometro);
+
+        new CountDownTimer(3000, 1000) { //2706900
+
+            @SuppressLint({"DefaultLocale", "SetTextI18n"})
+            public void onTick(long millisUntilFinished) {
+
+                cronometro.setText(""+String.format(FORMAT,
+                        TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
+                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
+                                TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
+                                TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+            }
+
+            @SuppressLint("SetTextI18n")
+            public void onFinish() {
+                    cronometro.setText("SE ESCAPARON");
+                    if(cronometro.getText()== "SE ESCAPARON"){
+                      //  Intent intent = new Intent (.getContext(), LoserActivity.class);
+                     //   startActivityForResult(intent, 0);
+                    }
+            }
+        }.start();
 
     }
+
 
 // --------------------------------------------------------------------------------------------------------------
 

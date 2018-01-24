@@ -70,5 +70,14 @@
         android:layout_alignTop="@+id/map"
         android:layout_centerHorizontal="true" />
 
+    <TextView
+        android:id="@+id/cronometro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtqr"
+        android:layout_centerHorizontal="true"
+        android:text="Cronometro"
+        android:textColorHint="@color/negro"/>
+
 
 </RelativeLayout>
