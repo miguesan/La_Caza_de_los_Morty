@@ -329,15 +329,54 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 // --------------------------------------------------------------------------------------------------------------
 
-    private void morty1cap(String retorno) {
+    private void mortycap(String retorno) {
         int drawable;
 
         if (retorno.contains("Enano")) {
             drawable = R.drawable.capturadoenano;
+            contadorGanar++;
         } else if (retorno.contains("Doble")) {
             drawable = R.drawable.capturadodoble;
+            contadorGanar++;
         } else if (retorno.contains("Insecto")) {
             drawable = R.drawable.capturadoinsecto;
+            contadorGanar++;
+        } else {
+            drawable = R.drawable.erroqr;
+        }
+        ImageView image = new ImageView(this);
+        image.setImageResource(drawable);
+
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(this).
+                        setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).
+                        setView(image);
+        builder.create().show();
+
+        //contadorGanar++;
+
+        if (contadorGanar == 3) {
+
+            Intent intent = new Intent(this.getApplicationContext(), WinActivity.class);
+            startActivity(intent);
+        }
+    }
+
+
+   /* private void mortyerror(String retorno) {
+        int drawable;
+
+        if (retorno.contains("") != retorno.contains("Enano")) {
+            drawable = R.drawable.erroqr;
+        } else if (retorno.contains("") != retorno.contains("Doble")) {
+            drawable = R.drawable.erroqr;
+        } else if (retorno.contains("") != retorno.contains("Insecto")) {
+            drawable = R.drawable.erroqr;
         } else {
             drawable = R.drawable.erroqr;
         }
@@ -362,8 +401,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Intent intent = new Intent(this.getApplicationContext(), WinActivity.class);
             startActivity(intent);
         }
-    }
-
+    } */
 
 
 
@@ -459,8 +497,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == codigo) {
-                //txtqr.setText(data.getExtras().getString("retorno"));
-                morty1cap(data.getExtras().getString("retorno"));
+                mortycap(data.getExtras().getString("retorno"));
             }
         }
     }
