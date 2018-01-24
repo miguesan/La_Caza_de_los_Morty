@@ -128,7 +128,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         cronometro = (TextView) findViewById(R.id.cronometro);
 
-        new CountDownTimer(3000, 1000) { //2706900
+        new CountDownTimer(2706900, 1000) { //2706900
 
             @SuppressLint({"DefaultLocale", "SetTextI18n"})
             public void onTick(long millisUntilFinished) {
@@ -147,6 +147,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     if(cronometro.getText()== "SE ESCAPARON"){
                       //  Intent intent = new Intent (.getContext(), LoserActivity.class);
                      //   startActivityForResult(intent, 0);
+                        btEscaner.setEnabled(false);
                     }
             }
         }.start();
