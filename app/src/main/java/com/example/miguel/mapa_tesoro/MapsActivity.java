@@ -101,6 +101,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         longitud.setText("Longitud");
 
         btn = (Button) findViewById(R.id.bEscaner);
+        txtqr = (TextView) findViewById(R.id.txtqr);
         //btn.setEnabled(false);
 
 
@@ -295,13 +296,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if(localitation==locationmorty1){
 
             btn.setEnabled(true);
-            btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent (v.getContext(), QRActivity.class);
-                    startActivityForResult(intent, 0);
-                    }
-                });
+
         }else{
             btn.setEnabled(false);
 
@@ -320,13 +315,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if(localitation==locationmorty2){
 
             btn.setEnabled(true);
-            btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent (v.getContext(), QRActivity.class);
-                    startActivityForResult(intent, 0);
-                }
-            });
+
         }else{
             btn.setEnabled(false);
 
@@ -343,10 +332,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if(localitation==locationmorty3){
 
-            //btn.setEnabled(true);
+            btn.setEnabled(true);
 
         }else {
-            //btn.setEnabled(false);
+            btn.setEnabled(false);
 
         }
 
