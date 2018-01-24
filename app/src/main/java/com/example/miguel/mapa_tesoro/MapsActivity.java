@@ -101,8 +101,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         longitud.setText("Longitud");
 
         btn = (Button) findViewById(R.id.bEscaner);
+        btn.setEnabled(false);
+
         txtqr = (TextView) findViewById(R.id.txtqr);
-        //btn.setEnabled(false);
+
 
 
 
@@ -293,11 +295,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationmorty1.setLongitude(longim1);
         distancia1 = localitation.distanceTo(locationmorty1);
 
-        if(localitation==locationmorty1){
+        if(localitation.distanceTo(locationmorty1)<=metroscerca){
 
             btn.setEnabled(true);
 
-        }else{
+        }else if(localitation.distanceTo(locationmorty1)>=metroslejos){
             btn.setEnabled(false);
 
         }
@@ -312,11 +314,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationmorty2.setLongitude(longim2);
         distancia2 = localitation.distanceTo(locationmorty2);
 
-        if(localitation==locationmorty2){
+        if(localitation.distanceTo(locationmorty2)<=metroscerca){
 
             btn.setEnabled(true);
 
-        }else{
+        }else if(localitation.distanceTo(locationmorty2)>=metroslejos){
             btn.setEnabled(false);
 
         }
@@ -330,15 +332,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationmorty3.setLongitude(longim3);
         distancia3 = localitation.distanceTo(locationmorty3);
 
-        if(localitation==locationmorty3){
+        if(localitation.distanceTo(locationmorty3)<=metroscerca){
 
             btn.setEnabled(true);
 
-        }else {
+        }else if(localitation.distanceTo(locationmorty3)>=metroslejos){
             btn.setEnabled(false);
 
         }
-
     }
 
 // --------------------------------------------------------------------------------------------------------------
@@ -423,7 +424,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         alertbox.show();
     }
 
-
+// --------------------------------------------------------------------------------------------------------------
 
 
     @Override
