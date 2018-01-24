@@ -61,4 +61,12 @@
         android:text="Longitud: NO SE MUESTRA"
         android:textColor="@color/rojo"/>
 
+    <TextView
+        android:id="@+id/txtqr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/map"
+        android:layout_centerHorizontal="true"
+        android:text="TEXTO QR" />
+
 </RelativeLayout>

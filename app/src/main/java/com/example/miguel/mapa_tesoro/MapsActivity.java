@@ -68,6 +68,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     //boton escaner
     Button btn;
 
+    private final static int codigo=0;
+    TextView txtqr;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +101,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         longitud.setText("Longitud");
 
         btn = (Button) findViewById(R.id.bEscaner);
-        btn.setEnabled(false);
+        //btn.setEnabled(false);
 
 
 
@@ -216,6 +219,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng2));
         mMap.setOnInfoWindowClickListener(this);
 
+
+        btn.setOnClickListener (new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent qr = new Intent(MapsActivity.this, QRActivity.class);
+                startActivityForResult(qr,codigo);
+            }
+        });
+
     }
 // --------------------------------------------------------------------------------------------------------------
 
@@ -331,18 +343,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if(localitation==locationmorty3){
 
-            btn.setEnabled(true);
-            btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent (v.getContext(), QRActivity.class);
-                    startActivityForResult(intent, 0);
-                }
-            });
+            //btn.setEnabled(true);
+
         }else {
-            btn.setEnabled(false);
+            //btn.setEnabled(false);
 
         }
+
     }
 
 // --------------------------------------------------------------------------------------------------------------
@@ -425,6 +432,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         //mostramos el alertbox
         alertbox.show();
+    }
+
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == codigo) {
+                txtqr.setText(data.getExtras().getString("retorno"));
+
+            }
+        }
     }
 }
 
