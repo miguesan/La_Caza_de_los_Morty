@@ -329,7 +329,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 // --------------------------------------------------------------------------------------------------------------
 
-    private void mortycap(String retorno) {
+    private void mortyCaptured(String retorno) {
         int drawable;
 
         if (retorno.contains("Enano")) {
@@ -357,55 +357,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         }).
                         setView(image);
         builder.create().show();
-
-        //contadorGanar++;
-
+//para abrir la pestaña de ganar
         if (contadorGanar == 3) {
 
             Intent intent = new Intent(this.getApplicationContext(), WinActivity.class);
             startActivity(intent);
         }
     }
-
-
-   /* private void mortyerror(String retorno) {
-        int drawable;
-
-        if (retorno.contains("") != retorno.contains("Enano")) {
-            drawable = R.drawable.erroqr;
-        } else if (retorno.contains("") != retorno.contains("Doble")) {
-            drawable = R.drawable.erroqr;
-        } else if (retorno.contains("") != retorno.contains("Insecto")) {
-            drawable = R.drawable.erroqr;
-        } else {
-            drawable = R.drawable.erroqr;
-        }
-        ImageView image = new ImageView(this);
-        image.setImageResource(drawable);
-
-        AlertDialog.Builder builder =
-                new AlertDialog.Builder(this).
-                        setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        }).
-                        setView(image);
-        builder.create().show();
-
-        contadorGanar++;
-
-        if (contadorGanar == 3) {
-
-            Intent intent = new Intent(this.getApplicationContext(), WinActivity.class);
-            startActivity(intent);
-        }
-    } */
-
-
-
-
 
 // --------------------------------------------------------------------------------------------------------------
 
@@ -497,7 +455,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == codigo) {
-                mortycap(data.getExtras().getString("retorno"));
+                mortyCaptured(data.getExtras().getString("retorno"));
             }
         }
     }
