@@ -18,6 +18,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -61,15 +62,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     //Declaraciones de distancias entre puntos tanto lideres como puntos de asalto
     private Location locationGPS;
     double distancia1, distancia2, distancia3;
-    float metroscerca = 20;
+    float metroscerca = 60;
     float metroslejos = 10;
 
 
     //boton escaner
+    Button btEscaner;
+    //otro boton
     Button btn;
 
     private final static int codigo=0;
     TextView txtqr;
+
+    int contadorGanar = 0;
+    Context contexto;
 
 
     @Override
@@ -100,10 +106,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         latitud.setText("Latitud");
         longitud.setText("Longitud");
 
-        btn = (Button) findViewById(R.id.bEscaner);
-        btn.setEnabled(false);
+        btEscaner = (Button) findViewById(R.id.bEscaner);
+        btEscaner.setEnabled(true);
 
         txtqr = (TextView) findViewById(R.id.txtqr);
+        contexto = this.getApplicationContext();
 
 
 
@@ -223,7 +230,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnInfoWindowClickListener(this);
 
 
-        btn.setOnClickListener (new View.OnClickListener(){
+        btEscaner.setOnClickListener (new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 Intent qr = new Intent(MapsActivity.this, QRActivity.class);
@@ -273,12 +280,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationmorty1.setLongitude(longim1);
         distancia1 = localitation.distanceTo(locationmorty1);
 
-        if(localitation.distanceTo(locationmorty1)<=metroscerca){
+        if(localitation.distanceTo(locationmorty1)>=metroscerca){
 
-            btn.setEnabled(true);
+         //   btn.setEnabled(true);
 
-        }else if(localitation.distanceTo(locationmorty1)>=metroslejos){
-            btn.setEnabled(false);
+        }else if(localitation.distanceTo(locationmorty1)<=metroslejos){
+            //btn.setEnabled(false);
 
         }
     }
@@ -294,10 +301,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if(localitation.distanceTo(locationmorty2)<=metroscerca){
 
-            btn.setEnabled(true);
+         //   btn.setEnabled(true);
 
         }else if(localitation.distanceTo(locationmorty2)>=metroslejos){
-            btn.setEnabled(false);
+          //  btn.setEnabled(false);
 
         }
     }
@@ -312,13 +319,55 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if(localitation.distanceTo(locationmorty3)<=metroscerca){
 
-            btn.setEnabled(true);
+           // btn.setEnabled(true);
 
         }else if(localitation.distanceTo(locationmorty3)>=metroslejos){
-            btn.setEnabled(false);
+           // btn.setEnabled(false);
 
         }
     }
+
+// --------------------------------------------------------------------------------------------------------------
+
+    private void morty1cap(String retorno) {
+        int drawable;
+
+        if (retorno.contains("Enano")) {
+            drawable = R.drawable.capturadoenano;
+        } else if (retorno.contains("Doble")) {
+            drawable = R.drawable.capturadodoble;
+        } else if (retorno.contains("Insecto")) {
+            drawable = R.drawable.capturadoinsecto;
+        } else {
+            drawable = R.drawable.erroqr;
+        }
+        ImageView image = new ImageView(this);
+        image.setImageResource(drawable);
+
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(this).
+                        setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).
+                        setView(image);
+        builder.create().show();
+
+        contadorGanar++;
+
+        if (contadorGanar == 3) {
+
+            Intent intent = new Intent(this.getApplicationContext(), WinActivity.class);
+            startActivity(intent);
+        }
+    }
+
+
+
+
+
 
 // --------------------------------------------------------------------------------------------------------------
 
@@ -331,7 +380,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             distanciaMorty1(location);
             distanciaMorty2(location);
             distanciaMorty3(location);
-            Log.i(TAG, "Lat " + location.getLatitude() + " Long " + location.getLongitude());
             Log.i(TAG, "Lat " + location.getLatitude() + " Long " + location.getLongitude());
             latitud.setText("Latitud "+lat);
             longitud.setText("Longitud "+lon);
@@ -411,8 +459,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == codigo) {
-                txtqr.setText(data.getExtras().getString("retorno"));
-
+                //txtqr.setText(data.getExtras().getString("retorno"));
+                morty1cap(data.getExtras().getString("retorno"));
             }
         }
     }
