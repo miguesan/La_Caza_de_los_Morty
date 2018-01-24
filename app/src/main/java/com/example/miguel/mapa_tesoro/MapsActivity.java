@@ -101,7 +101,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         longitud.setText("Longitud");
 
         btn = (Button) findViewById(R.id.bEscaner);
-        btn.setEnabled(false);
+        btn.setEnabled(true);
 
         txtqr = (TextView) findViewById(R.id.txtqr);
 
@@ -237,29 +237,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     //Ventana de información
     @Override
     public void onInfoWindowClick(Marker marker) {
-        /*if (marker.equals(latLng)) {
-            WowDialogFragment.newInstance(marker.getTitle(),
-                    getString(R.string.pandaria_full_snippet))
-                    .show(getSupportFragmentManager(), null);
-        }
-        else if (marker.equals(latLng1)){
-            WowDialogFragment.newInstance(marker.getTitle(),
-                    getString(R.string.cataclysm_full_snippet))
-                    .show(getSupportFragmentManager(), null);
-        }
-        else if (marker.equals(latLng2)){
-            WowDialogFragment.newInstance(marker.getTitle(),
-                    getString(R.string.legion_full_snippet))
-                    .show(getSupportFragmentManager(), null);
-        }
-        else if (marker.equals(castelao)){
-            WowDialogFragment.newInstance(marker.getTitle(),
-                    getString(R.string.orgricastelao_full_snippet))
-                    .show(getSupportFragmentManager(), null);
-        }
-        else{
-            System.out.println("Error");
-        }*/
+
     }
 
 // --------------------------------------------------------------------------------------------------------------
@@ -344,6 +322,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 // --------------------------------------------------------------------------------------------------------------
 
+
     LocationListener locListener = new LocationListener(){
 
         @Override
@@ -390,7 +369,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 // --------------------------------------------------------------------------------------------------------------
-
+//al salir dando doble click
     public void onBackPressed(){
 
         //se prepara la alerta creando nueva instancia
@@ -426,7 +405,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 // --------------------------------------------------------------------------------------------------------------
 
-
+//resultados del codigo QR
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
