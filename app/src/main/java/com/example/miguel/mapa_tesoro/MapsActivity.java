@@ -101,7 +101,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         longitud.setText("Longitud");
 
         btn = (Button) findViewById(R.id.bEscaner);
-        btn.setEnabled(true);
+        btn.setEnabled(false);
 
         txtqr = (TextView) findViewById(R.id.txtqr);
 
