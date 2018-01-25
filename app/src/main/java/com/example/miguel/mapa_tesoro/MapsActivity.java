@@ -86,6 +86,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final String FORMAT = "%02d:%02d:%02d";
     Context cronoContex;
 
+    //contador de escaneos de QR
+    int qrescanEnano = 0;
+    int qrescanDoble = 0;
+    int qrescanInsecto = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,9 +150,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onFinish() {
                     cronometro.setText("SE ESCAPARON");
                     if(cronometro.getText()== "SE ESCAPARON"){
-                      //  Intent intent = new Intent (.getContext(), LoserActivity.class);
-                     //   startActivityForResult(intent, 0);
+                     Intent intent = new Intent(getApplicationContext(),LoserActivity.class);
                         btEscaner.setEnabled(false);
+                        startActivity(intent);
                     }
             }
         }.start();
@@ -371,15 +376,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if (retorno.contains("Enano")) {
             drawable = R.drawable.capturadoenano;
+            qrescanEnano++;
             contadorGanar++;
+            if (qrescanEnano >=2 ){
+                drawable = R.drawable.qrescaneado;
+                contadorGanar--;
+            }
         } else if (retorno.contains("Doble")) {
             drawable = R.drawable.capturadodoble;
+            qrescanDoble++;
             contadorGanar++;
+            if (qrescanDoble >=2 ){
+                drawable = R.drawable.qrescaneado;
+                contadorGanar--;
+            }
         } else if (retorno.contains("Insecto")) {
             drawable = R.drawable.capturadoinsecto;
+            qrescanInsecto++;
             contadorGanar++;
+            if (qrescanInsecto >=2 ){
+                drawable = R.drawable.qrescaneado;
+                contadorGanar--;
+            }
         } else {
             drawable = R.drawable.erroqr;
+
         }
         ImageView image = new ImageView(this);
         image.setImageResource(drawable);
@@ -399,6 +420,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             Intent intent = new Intent(this.getApplicationContext(), WinActivity.class);
             startActivity(intent);
+
+            cronometro.setText("LOS CAZASTE");
+            btEscaner.setEnabled(false);
         }
     }
 
