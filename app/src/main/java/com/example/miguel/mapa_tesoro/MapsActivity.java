@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Looper;
@@ -35,6 +36,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
@@ -91,6 +94,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     int qrescanDoble = 0;
     int qrescanInsecto = 0;
 
+
+    //para la musica
+    private MediaPlayer musicaMapa;
+    int MAX_VOLUME = 100;
+    int soundVolume = 90;
+    float volume = (float) (1 - (Math.log(MAX_VOLUME - soundVolume) / Math.log(MAX_VOLUME)));
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,10 +161,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     if(cronometro.getText()== "SE ESCAPARON"){
                      Intent intent = new Intent(getApplicationContext(),LoserActivity.class);
                         btEscaner.setEnabled(false);
+                        musicaMapa.stop();
                         startActivity(intent);
                     }
             }
         }.start();
+
+
+        //musica de fondo para el mapa
+        musicaMapa = MediaPlayer.create(this, R.raw.musicamapa);
+        musicaMapa.setLooping(true);
+        musicaMapa.setVolume(volume, volume);
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                musicaMapa.start();
+            }
+        }, 1000);
 
     }
 
@@ -417,7 +439,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         builder.create().show();
 //para abrir la pestaña de ganar
         if (contadorGanar == 3) {
-
+            musicaMapa.stop();
             Intent intent = new Intent(this.getApplicationContext(), WinActivity.class);
             startActivity(intent);
 
