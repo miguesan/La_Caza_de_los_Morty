@@ -37,7 +37,7 @@
         android:layout_alignBottom="@+id/map"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="27dp"
-        android:text="Escanear"
+        android:background="@drawable/gun"
         />
 
 

@@ -43,7 +43,16 @@ import java.util.concurrent.TimeUnit;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap mMap;
+
+    private Marker mapMorty1;
+    private Marker mapMorty2;
+    private Marker mapMorty3;
     private Marker marcador;
+
+    private Circle circle1;
+    private Circle circle2;
+    private Circle circle3;
+
     private LatLng latLng;
     private LatLng latLng1;
     private LatLng latLng2;
@@ -95,8 +104,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     int qrescanInsecto = 0;
 
 
-    //para la musica
-    private MediaPlayer musicaMapa;
+
+    private MediaPlayer musicaMapa; //para la musica del mapa
+    private MediaPlayer sonidoEscaner; //sonido del escaner
     int MAX_VOLUME = 100;
     int soundVolume = 90;
     float volume = (float) (1 - (Math.log(MAX_VOLUME - soundVolume) / Math.log(MAX_VOLUME)));
@@ -130,7 +140,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         longitud.setText("Longitud");
 
         btEscaner = (Button) findViewById(R.id.bEscaner);
-        btEscaner.setEnabled(true);
+        //btEscaner.setEnabled(true);
 
         txtqr = (TextView) findViewById(R.id.txtqr);
         contexto = this.getApplicationContext();
@@ -172,6 +182,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         musicaMapa = MediaPlayer.create(this, R.raw.musicamapa);
         musicaMapa.setLooping(true);
         musicaMapa.setVolume(volume, volume);
+
+        //Sonido escaner
+        sonidoEscaner = MediaPlayer.create(this, R.raw.gunsound);
+
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
@@ -237,10 +251,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .strokeColor(Color.parseColor("#0D47A1"))
                 .strokeWidth(4)
                 .fillColor(Color.argb(32, 33, 150, 243));
-        Circle circle = mMap.addCircle(circleOptions);
+        circle1 = mMap.addCircle(circleOptions);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
 
-        mMap.addMarker(new MarkerOptions()
+        mapMorty1 = mMap.addMarker(new MarkerOptions()
                 .position(latLng)
                 .title("Morty Cuerpo Enano")
                 .snippet("Creador: Rick Sánchez - Universo SD-45a")
@@ -259,10 +273,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .strokeColor(Color.parseColor("#FF0000"))
                 .strokeWidth(4)
                 .fillColor(Color.argb(32, 33, 150, 243));
-        Circle circle1 = mMap.addCircle(circleOptions1);
+        circle2 = mMap.addCircle(circleOptions1);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng1, 17));
 
-        mMap.addMarker(new MarkerOptions()
+        mapMorty2 =mMap.addMarker(new MarkerOptions()
                 .position(latLng1)
                 .title("Morty Doble Cara")
                 .snippet("Creador: Rick Sánchez - Universo GF-L8p")
@@ -281,10 +295,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .strokeColor(Color.parseColor("#3ADF00"))
                 .strokeWidth(4)
                 .fillColor(Color.argb(32, 33, 150, 243));
-        Circle circle2 = mMap.addCircle(circleOptions2);
+        circle3 = mMap.addCircle(circleOptions2);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng2, 17));
 
-        mMap.addMarker(new MarkerOptions()
+        mapMorty3 =mMap.addMarker(new MarkerOptions()
                 .position(latLng2)
                 .title("Morty Insecto")
                 .snippet("Creador: Rick Sánchez - Universo PJ-2Y7")
@@ -298,6 +312,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View view) {
                 Intent qr = new Intent(MapsActivity.this, QRActivity.class);
+                sonidoEscaner.start();
                 startActivityForResult(qr,codigo);
             }
         });
@@ -335,7 +350,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 // --------------------------------------------------------------------------------------------------------------
-    //Distancias entre tu posicion y la posicion de los reinos a conquistar
+    /*//Distancias entre tu posicion y la posicion de los reinos a conquistar
     private void distanciaMorty1(Location localitation) {
         double latim1 = 42.237439;
         double longim1 = -8.714226;
@@ -389,7 +404,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
            // btn.setEnabled(false);
 
         }
-    }
+    }*/
 
 // --------------------------------------------------------------------------------------------------------------
 
@@ -400,6 +415,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             drawable = R.drawable.capturadoenano;
             qrescanEnano++;
             contadorGanar++;
+            circle1.setVisible(false);
+            mapMorty1.setVisible(false);
             if (qrescanEnano >=2 ){
                 drawable = R.drawable.qrescaneado;
                 contadorGanar--;
@@ -408,6 +425,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             drawable = R.drawable.capturadodoble;
             qrescanDoble++;
             contadorGanar++;
+            circle2.setVisible(false);
+            mapMorty2.setVisible(false);
             if (qrescanDoble >=2 ){
                 drawable = R.drawable.qrescaneado;
                 contadorGanar--;
@@ -416,6 +435,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             drawable = R.drawable.capturadoinsecto;
             qrescanInsecto++;
             contadorGanar++;
+            circle3.setVisible(false);
+            mapMorty3.setVisible(false);
             if (qrescanInsecto >=2 ){
                 drawable = R.drawable.qrescaneado;
                 contadorGanar--;
@@ -456,9 +477,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         @Override
         public void onLocationChanged(Location location) {
             actualizarUbicacion(location);
-            distanciaMorty1(location);
-            distanciaMorty2(location);
-            distanciaMorty3(location);
+            //distanciaMorty1(location);
+            //distanciaMorty2(location);
+            //distanciaMorty3(location);
             Log.i(TAG, "Lat " + location.getLatitude() + " Long " + location.getLongitude());
             latitud.setText("Latitud "+lat);
             longitud.setText("Longitud "+lon);
