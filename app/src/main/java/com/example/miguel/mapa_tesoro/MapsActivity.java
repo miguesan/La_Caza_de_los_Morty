@@ -105,6 +105,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     int soundVolume = 90;
     float volume = (float) (1 - (Math.log(MAX_VOLUME - soundVolume) / Math.log(MAX_VOLUME)));
 
+    CountDownTimer cuenta; //para la cuenta atras
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,7 +147,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         cronometro = (TextView) findViewById(R.id.cronometro);
 
-        new CountDownTimer(2706900, 1000) { //2706900
+        cuenta = new CountDownTimer(2706900, 1000) { //2706900
 
             @SuppressLint({"DefaultLocale", "SetTextI18n"})
             public void onTick(long millisUntilFinished) {
@@ -400,6 +402,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Intent intent = new Intent(this.getApplicationContext(), WinActivity.class);
             startActivity(intent);
 
+            cuenta.cancel();
             cronometro.setText("LOS CAZASTE");
             btEscaner.setEnabled(false);
         }
